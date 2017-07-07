@@ -1,0 +1,33 @@
+target/
+documents/
+!.mvn/wrapper/maven-wrapper.jar
+dump.sql
+src/main/resources/ods/
+src/main/resources/messages*
+src/main/resources/validation.properties
+src/main/resources/static/fonts/*
+src/main/resources/static/images/*
+src/main/resources/static/js/*
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+mysqldata/

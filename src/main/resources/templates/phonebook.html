@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title>Телефонный справочник</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+
+    <h1>Телефонный справочник</h1>
+
+    <div class="row">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-offset-8 col-sm-4">
+                    <input id="search" type="text" class="form-control" placeholder="Поиск сотрудника..."/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <table class="table table-bordered phonebook-table table-condensed">
+            <thead>
+            <tr>
+                <th class="phonebook-firstcolumn">Должность</th>
+                <th>Ф.И.О</th>
+                <th class="phonebook-thirdcolumn">Рабочий телефон</th>
+            </tr>
+            </thead>
+
+            <tbody class="searchable">
+            <th:block th:if="!${#httpServletRequest.requestURI.contains('osp')}">
+                <tr class="phonebook-data phonebook-static">
+                    <td>Приемная руководителя</td>
+                    <td></td>
+                    <td>8-800-555-35-35</td>
+                </tr>
+                <tr class="phonebook-data phonebook-static">
+                    <td>Дежурная часть</td>
+                    <td></td>
+                    <td>8-800-555-35-35</td>
+                </tr>
+                <tr class="phonebook-data phonebook-static">
+                    <td>Телефон доверия</td>
+                    <td></td>
+                    <td>8-800-555-35-35</td>
+                </tr>
+            </th:block>
+            <th:block th:each="division : ${divisions}">
+
+                <tr class="phonebook-header">
+                    <td colspan="3" data-toggle="collapse" aria-expanded="false"
+                        th:attr="data-target='#division'+${division.number}, aria-controls='division'+${division.number}" class="phonebook-division-name collapsed" th:text="${division.caption}"></td>
+                </tr>
+                <tr class="phonebook-container">
+                    <td style="padding:0" colspan="3" class="table-nested">
+                        <div class="collapse" th:id="'division'+${division.number}">
+                            <table class="table table-bordered searchable-table">
+                                <tr class="phonebook-info">
+                                    <td colspan="3">
+                                        <table class="table-borderless">
+                                            <tr th:if="${division.isActualOsp()}">
+                                                <td><strong>Адрес: </strong> <span th:text="${division.address}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Электронная почта: </strong> <span th:text="${division.email}"></span></td>
+                                            </tr>
+                                            <tr th:if="${division.isActualOsp()}">
+                                                <td><strong>Код города: </strong> <span th:text="${division.telephoneCode}"></span></td>
+                                            </tr>
+                                            <tr th:if="${division.fax} != 'Не указан'">
+                                                <td><strong>Факс: </strong> <span th:text="${division.fax}"></span></td>
+                                            </tr>
+                                            <tr th:if="${division.dutyPhone} != 'Не указан'">
+                                                <td><strong>Телефон дежурного: </strong> <span th:text="${division.dutyPhone}"></span></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr class="phonebook-data" th:each="person: ${division.persons}"
+                                    th:classappend="${person.delayTo} != null ? test : noclass">
+
+                                    <td class="phonebook-firstcolumn" th:text="${person.personPost.caption}">Начальник отдела
+                                    </td>
+                                    <td th:text="${person.getFullName()}">
+                                        Иванов И.И.
+                                    </td>
+                                    <td class="phonebook-thirdcolumn" th:text="${person.workingNumber}">8-800-555-35-35
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- /.container -->
+<script>
+    /*<![CDATA[*/
+    $(function() {
+        $('#search').keyup(function() {
+
+            //Значение в поле "Поиск"
+            var value = $(this).val().toUpperCase();
+            //Все tr блоки с заголовками
+            var $headers = $('.phonebook-header');
+            //Все tr блоки с информацией об отделе
+            var $infos = $('.phonebook-info');
+            //Все tr блоки, в которых находятся сотрудники
+            var $containers = $('.phonebook-container');
+
+            //Если поле "Поиск" не пустое
+            if (value.length !== 0) {
+                //развернуть "гармошки" и спрятать статичные строки с
+                //номерами приемной, телефона доверия и дежурной части
+                $('.phonebook-static').hide();
+                $('div.collapse').addClass('in').removeAttr('style');
+                //спрятать все заголовки
+                $headers.each(function(){
+                    $(this).hide();
+                });
+                //спрятать все блоки с информацией
+                $infos.each(function() {
+                    $(this).hide();
+                });
+            //Иначе
+            } else {
+                //свернуть "гармошки" и показать статичные строки
+                $('.phonebook-static').show();
+                $('div.collapse').removeClass('in');
+                //показать заголовки
+                $headers.each(function() {
+                    $(this).show();
+                });
+                //показать блоки с инофрмацией
+                $infos.each(function() {
+                    $(this).show();
+                });
+            }
+
+            //Для каждого tr блока, в котором находятся сотрудники:
+            $containers.each(function() {
+                //сохранить блок в переменную
+                var $container = $(this);
+                //найти все строки с номерами сотрудников
+                var $dataRows = $(this).find('.phonebook-data');
+                //если таких строк нет И в поле "Поиск" что-либо введено
+                if ($dataRows.length === 0 && value.length !== 0) {
+                    //скрыть этот блок полностью
+                    $container.hide();
+                //иначе
+                } else {
+                    //показать этот блок
+                    $container.show();
+                }
+                //Переменная, в которой отмечается найден ли хотя бы
+                //один сотрудник с такой фамилией в этом блоке
+                var isAnythingFound = false;
+
+                //для каждой строки с номерами сотрудников
+                $dataRows.each(function() {
+                    //сохранить в переменную имя сотрудника
+                    var a = $(this).find('td:nth-child(2)').text().toUpperCase();
+
+                    //если имена не совпадают
+                    if (a.indexOf(value) !== 0) {
+                        //спрятать всю строку
+                        $(this).hide();
+                        //скрыть весь контейнер
+                        if (!isAnythingFound) {
+                            $container.hide();
+                        }
+                    //иначе
+                    } else {
+                        //показать строку
+                        $(this).show();
+                        //найден хотя бы один сотрудник
+                        isAnythingFound = true;
+                        if (isAnythingFound) {
+                            //показать контейнер
+                            $container.show();
+                        }
+                    }
+                });
+            })
+            /*]]>*/
+        })
+    })
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование сущности исполнения</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+    <h1>Редактирование сущности исполнения</h1>
+    <div class="row">
+            <form class="edit-data" th:action="@{'save'}" method="post">
+                <div class="form-group">
+                    <label for="debtClassNumber">Идентификатор в АИС:</label>
+                    <input class="form-control" type="number" name="number" id="debtClassNumber" th:value="${debtclass.number}"/>
+                </div>
+                <div class="form-group">
+                    <label for="debtClassCaption">Сущность исполнения:</label>
+                    <input class="form-control" type="text" name="caption" id="debtClassCaption" th:value="${debtclass.caption}"/>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-primary btn-block" id="submit"><i class="glyphicon glyphicon-check"></i>
+                        <span>Сохранить</span>
+                    </button>
+                </div>
+
+            </form>
+
+    </div>
+</div>
+
+
+</body>
+</html>

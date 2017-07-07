@@ -1,0 +1,531 @@
+/*
+=== Общие классы стилей ===
+ */
+
+body {
+    font-family: RobotoRegular, sans-serif;
+    margin-top: 35px;
+    background-color: #EAE3EA;
+
+}
+
+p {
+    font-family: RalewayMedium, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin: 30px 0;
+}
+
+h1,h2,h3 {
+    font-family: RobotoMedium, sans-serif;
+}
+
+/*
+=== Страница авторизации ===
+ */
+
+#login-body {
+    background: url(../images/eeex8zpoesa-sebastien-marchand.jpg) no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+}
+
+
+#login-form {
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    font-family: RalewayExtraBold, sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    margin-top: 10%;
+    background-color: rgba(0, 0, 0, 0.5);
+    min-width: 400px;
+    border-radius: 25px;
+}
+
+#login-submit {
+    margin-bottom: 23px;
+    padding: 10px 30px;
+}
+
+#h1-login {
+    font-size: 52px;
+    font-family: RalewayExtraBold, sans-serif;
+    margin: 10px;
+}
+
+#h3-login {
+    font-size: 28px;
+    font-family: RalewayExtraBold, sans-serif;
+}
+
+/*
+=== Главная страница ===
+ */
+
+.jumbotron h1 {
+    font-size: 46px;
+}
+
+.birthday-box {
+    background-color: #b56357;
+    color: white;
+    border-radius: 25px;
+    padding-left: 25px;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.birthday-box ul {
+    list-style-type: circle;
+}
+
+.birthday-box li {
+    margin-bottom: 8px;
+}
+
+
+
+.search-bar {
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+
+
+form .btn {
+    margin: 10px 0;
+}
+
+.form-group {
+    padding: 0 15px 0 15px;
+}
+
+.navbar-brand {
+    font-size: 14px;
+    padding: 0;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+
+.navbar-inverse .navbar-brand:hover {
+    color: #F5FF7C;
+}
+
+.navbar-brand > span > img {
+    height: 100%;
+    padding: 5px;
+    width: auto;
+}
+
+.navbar {
+    background-color: #42AD60;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    font-family: RalewaySemiBold, sans-serif;
+
+}
+
+.nav.navbar-nav li a {
+    color: white;
+}
+
+.nav.navbar-nav li a:hover {
+    color: #F5FF7C;
+}
+
+
+td {
+    border: 1px solid #ddd;
+}
+
+hr {
+    border: 2px solid gray;
+}
+
+tr.clickable-row:hover {
+    cursor: pointer;
+    color: black;
+    background-color: #B4DBC0;
+}
+
+.pagination > li > a, .pagination > li > span {
+    color: #469649;
+}
+
+.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background-color: #469649;
+    border-color: #469649;
+}
+
+a:focus, a:active {
+    outline-color: #469649;
+}
+
+.form-control:focus, .form-control:active {
+    border-color: #469649;
+}
+
+select option:focus {
+    background-color: #469649;
+}
+
+select option:hover {
+    background-color: #469649;
+}
+
+Form label {
+    text-align: left;
+    display: block;
+    font-size: medium;
+}
+
+.jumbotron {
+    margin-top: 50px;
+    background-color: #B4DBC0;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:focus,
+.navbar-inverse .navbar-nav > .open > a:hover {
+    background-color: #469649;
+}
+
+.dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+    background-color: #469649 !important;
+}
+
+.dropdown-menu {
+    background-color: #7bc491;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    background-color: #fff;
+    text-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+}
+
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:focus, .navbar-inverse .navbar-nav > .open > a:hover {
+    background-color: #469649;
+}
+
+.info-block {
+    background-color: #fff;
+    margin: 20px 20px;
+    overflow: auto;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.first-block-row {
+    height: 350px;
+}
+
+.second-block-row {
+    height: 400px;
+}
+
+.showraidstatus {
+    padding-top: 7%;
+}
+
+.info-block img {
+    margin: 20px;
+}
+
+.info-thumb {
+    float: left;
+}
+
+.info-thumb img {
+    display: block;
+    width: 140px;
+}
+
+.post-image {
+    overflow: hidden;
+    margin-left: 170px;
+    margin-right: 20px;
+    font-family: RalewayLight, sans-serif;
+}
+
+.info-block h3 {
+    font-size: 34px;
+    font-family: RalewayLight, sans-serif;
+}
+
+.info-block hr {
+    border: 1px solid #cacdce;
+    margin: 35px 10%;
+}
+
+.info-block-header {
+    font-size: 46px;
+}
+
+thead tr th {
+    text-align: center;
+}
+
+.ospcol {
+    width: 250px;
+}
+
+.district-map img {
+    width: 95%;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    color: #ffffff;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover {
+    color: #F5FF7C;
+}
+
+#newRaidForm {
+    background-color: white;
+}
+
+.post-image h4 {
+    margin-top: 40px;
+}
+
+form h2 {
+    font-family: RalewayExtraBold, sans-serif;
+
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+    padding-left: 13px;
+    padding-right: 13px;
+}
+
+.btn-bottom {
+    margin-bottom: 15px;
+}
+
+.btn-right {
+   margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.raid-time {
+    margin-top: -15px;
+}
+
+.btn-edit-time {
+    margin-top: 10px;
+}
+
+.login-error {
+    text-shadow:none;
+    margin: 0 15px;
+}
+
+.flag-logo {
+    height: 15px;
+}
+
+.right-logo {
+    margin-left: -20px;
+}
+
+th {
+    background-color: #B4DBC0;
+    border: 1px solid #ddd;
+}
+
+#results.dataTable tbody th,
+#results.dataTable tbody td {
+    white-space: nowrap;
+}
+
+.statformlistitem {
+    font-size: 32px;
+}
+
+.list-group-item
+{
+    overflow:hidden;
+}
+
+#statformparams {
+    width: 48%;
+    margin-right: 2%;
+}
+
+
+#statformoptions {
+    width: 48%;
+    margin-left: 2%;
+}
+
+#statformlist {
+
+    margin-top: 60px;
+}
+
+#statformlist li {
+
+}
+
+.panel {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.good-numbers {
+    background-color: rgb(204, 255, 229);
+}
+
+.bad-numbers {
+    background-color: rgb(255, 153, 153);
+}
+
+label {
+    font-weight: 400;
+}
+
+.add-data {
+    background-color: white;
+    padding: 15px;
+    display: inline-block;
+    border: 1px solid #3c763d;
+}
+
+.edit-data {
+    width: 50%;
+    margin: 0px auto;
+    background: #B4DBC0;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.add-data > label {
+    font-size: 18px;
+    font-family: RalewayMedium, sans-serif;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.phonebook-header {
+    font-size: 15px;
+    background: #B4DBC0;
+    font-family: RobotoMedium, sans-serif;
+}
+.phonebook-header:hover {
+    background: #6caf80;
+    cursor: pointer;
+}
+
+.phonebook-info tr {
+    font-family: RobotoItalic, sans-serif;
+}
+
+
+[data-toggle="collapse"]:after
+{
+    font-family: Glyphicons Halflings, monospace;
+    content: "\e072"; /* "play" icon */
+    float: left;
+    color: #000000;
+    font-size: 18px;
+    line-height: 22px;
+
+     /*rotate "play" icon from > (right arrow) to down arrow */
+    -webkit-transform: rotate(-90deg);
+    -moz-transform:    rotate(-90deg);
+    -ms-transform:     rotate(-90deg);
+    -o-transform:      rotate(-90deg);
+    transform:         rotate(-90deg);
+}
+
+[data-toggle="collapse"].collapsed:after
+{
+    /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+    -webkit-transform: rotate(0deg);
+    -moz-transform:    rotate(0deg);
+    -ms-transform:     rotate(0deg);
+    -o-transform:      rotate(0deg);
+    transform:         rotate(0deg);
+}
+
+
+.table-borderless > tbody > tr > td,
+.table-borderless > tbody > tr > th,
+.table-borderless > tfoot > tr > td,
+.table-borderless > tfoot > tr > th,
+.table-borderless > thead > tr > td,
+.table-borderless > thead > tr > th {
+    border: none;
+}
+
+.table-borderless {
+    width:100%;
+}
+
+.phonebook-firstcolumn {
+    width: 40%;
+}
+.phonebook-thirdcolumn {
+    width: 20%;
+}
+
+.phonebook-division-name {
+    text-align: center;
+    font-size: 16px;
+}
+
+.phonebook-table {
+    background: white;
+}
+
+.phonebook-data tr{
+    font-family: RalewayMedium, sans-serif;
+}
+
+.test {
+    background: repeating-linear-gradient(
+            -45deg,
+            white,
+            white 10px,
+            #eaf0f1 10px,
+            #eaf0f1 20px
+    );
+}
+
+tr .table-nested {
+    padding: 0;
+}
+
+.searchable-table {
+    margin:0;
+}
+
+tr {
+    font-family: RobotoRegular, sans-serif;
+}
+
+#statWarning, #statSuccess {
+    display: none;
+}

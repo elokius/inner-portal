@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{raid.main.title}">Главная страница</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <div th:replace="fragments/header :: links">
+    </div>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+</div>
+
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="col-md-8 col-sm-6 col-xs-12">
+            <h1 class="display-3">Добро пожаловать!</h1>
+        </div>
+        <div class="birthday-box col-md-4 col-sm-6 col-xs-12 pull-right"
+             th:if="${birthdays} != null and ${birthdays.size() > 0}">
+            <h2><i class="fa fa-birthday-cake fa-lg"></i> Поздравляем!</h2>
+            <p>
+                <small>Сегодня свой день рождения отмечает:</small>
+            </p>
+            <ul class="list-group">
+                <li th:each="birthday : ${birthdays}"><strong><span th:text="${birthday.getFullName()}"></span></strong>
+                    -
+                    <span th:text="${birthday.personPost.caption} + ' (' + ${birthday.personDivision.caption} + ')'"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-4">
+            <h2><i class="fa fa-address-book-o"></i> Телефонный справочник</h2>
+            <p>Телефонный справочник содержит рабочие номера сотрудников Управления,
+                а также сотрудников ОСП. Справочник обновляется ежедневно
+                и получает сведения из АИС.</p>
+            <p><a class="btn btn-success" th:href="@{/phonebook}" role="button">Перейти <i
+                    class="fa fa-angle-double-right"></i></a>
+            </p>
+        </div>
+        <div class="col-md-4">
+            <h2><i class="fa fa-bar-chart"></i> Статистические формы</h2>
+            <p>Раздел содержит статистические сводки в разрезе отделов судебных приставов по направлениям наполняемости,
+                наличии запросов, ответов, а также постановлений.</p>
+            <p><a class="btn btn-success" th:href="@{/statforms}" role="button">Перейти <i
+                    class="fa fa-angle-double-right"></i></a></p>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-md-4">
+            <h2><i class="fa fa-gears"></i> Панель администратора</h2>
+            <p>Раздел позволяет создавать и редактировать новые формы статистической
+                отчетости, назначать права администратора, редактировать и добавлять
+                новые фильтры и многое другое.</p>
+            <p><a class="btn btn-success" th:href="@{/admin}" role="button">Перейти <i
+                    class="fa fa-angle-double-right"></i></a></p>
+        </div>
+    </div>
+
+</div> <!-- /container -->
+
+
+<!-- /.container -->
+
+
+</body>
+</html>

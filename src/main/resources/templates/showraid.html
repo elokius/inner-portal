@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title th:text="#{raid.showraid.pretitle} + ${raid.id} + ' ' + #{raid.showraid.posttitle} + ' ' + ${#dates.format(raid.startDate, 'dd.MM.yyyy')}">Выбранный рейд</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+
+    <h2 th:text="#{raid.showraid.preheader} + ${raid.id} + ' ' + #{raid.showraid.postheader} + ' ' + ${#dates.format(raid.startDate, 'dd.MM.yyyy')}">Выбранный рейд</h2>
+
+
+    <div class="row">
+        <div class="col-md-7 col-xs-12">
+            <div class="info-block first-block-row">
+                <p class="info-block-header" th:text="#{raid.showraid.chief}">Руководитель штаба:</p>
+                <div class="info-thumb" th:field="*{raid}">
+                    <img th:src="@{${raid.chief.imagePath}}"
+                         class="img-circle"/>
+                </div>
+                <div class="post-image" th:field="*{raid}">
+                    <h3 th:text="${raid.chief.getFullName()}">
+                        Иванов Иван Иванович</h3>
+                    <h4 th:text="${raid.chief.personPost.caption}">Заместитель руководителя Управления</h4>
+                    <a th:href="@{'/raid/' + ${raid.id}} + '/editchief'" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'" class="btn btn-success btn-bottom"><i class="glyphicon glyphicon-pencil"></i><span th:text="' ' + #{raid.showraid.editchief}" th:remove="tag"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 col-xs-12">
+            <div class="info-block first-block-row">
+                <p class="info-block-header" th:text="#{raid.showraid.raiddate}">Дата рейда:</p>
+                <h3 th:text="${#dates.format(raid.startDate, 'dd.MM.yyyy')}">23.01.2017</h3>
+                <hr/>
+                <p class="info-block-header raid-time" th:text="#{raid.showraid.raidtime}">Время рейда:</p>
+                <h3 th:text="${#dates.format(raid.startDate, 'HH:mm')} + '-' + ${#dates.format(raid.endDate, 'HH:mm')}">
+                    18:30</h3>
+            <div>
+                <a th:href="@{'/raid/' + ${raid.id}} + '/editdate'" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'" class="btn btn-success btn-bottom btn-edit-time"><i class="glyphicon glyphicon-pencil"></i><span th:text="' ' + #{raid.showraid.editdate}" th:remove="tag"></span></a>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5 col-xs-12">
+            <div class="info-block second-block-row showraidstatus">
+                <p class="info-block-header" th:text="#{raid.showraid.raidstatus}">Статус рейда:</p>
+                <h3 th:text="${raid.raidStatus.caption}">Окончен</h3>
+                <a th:href="@{'/raid/' + ${raid.id}} + '/editstatus'" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'" class="btn btn-success btn-sm btn-right"><i class="glyphicon glyphicon-pencil"></i><span th:text="' ' + #{raid.showraid.editstatus}" th:remove="tag"></span></a>
+
+                <hr/>
+                <p class="info-block-header" th:text="#{raid.showraid.participants}">Участники:</p>
+                <h3 th:text="${raid.divisions.size()} + ' ОСП'">18 ОСП</h3>
+            </div>
+        </div>
+        <div class="col-md-7 col-xs-12">
+            <div class="info-block second-block-row">
+                <p class="info-block-header" th:text="#{raid.showraid.assistants}">Помощники руководителя штаба:</p>
+                <div>
+                    <div class="table-responsive">
+                        <table id="assistants" class="table">
+                            <thead>
+                            <tr>
+                                <th th:text="#{raid.showraid.namecolumn}">ФИО помощника</th>
+                                <th th:text="#{raid.showraid.numberscolumn}">Контактные телефоны</th>
+                                <th th:text="#{raid.showraid.editassistantcolumn}" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'">Правка</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class='clickable-row' data-href='#' th:each="assistant : ${raid.assistantPersons}">
+                                <td th:text="${assistant.getFullName()}">
+                                    Петров П.П.
+                                </td>
+                                <td th:text="${assistant.mobileNumber} != null ? ${assistant.mobileNumber} + ' (' + ${assistant.workingNumber} + ')' : ' (' + ${assistant.workingNumber} + ')'">
+                                    8-800-555-35-35
+                                </td>
+                                <td sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'">
+                                    <a class="btn btn-success"
+                                       th:href="@{'/raid/' + ${raid.id}} + '/editassistant/' + ${assistant.id}"><i class="glyphicon glyphicon-pencil"></i><span th:text="' ' + #{raid.showraid.editassistantbutton}" th:remove="tag"></span></a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="info-block">
+            <p class="info-block-header" th:text="#{raid.showraid.participantslist}">Участники рейда:</p>
+            <div>
+                <div class="table-responsive">
+                    <table id="members" class="table">
+                        <thead>
+                        <tr>
+                            <th th:text="#{raid.showraid.ospcolumn}" class="ospcol">Отдел судебных приставов</th>
+                            <th th:text="#{raid.showraid.responsible}">Ответственный</th>
+                            <th th:text="#{raid.showraid.phonenumbers}">Контактные телефоны</th>
+                            <th th:text="#{raid.showraid.editresponsible}" th:if="${roles.contains(#authentication.authorities[0].toString())} or ${#authentication.authorities[0].toString()} == 'ROLE_ADMIN' or ${#authentication.authorities[0].toString()} == 'ROLE_DEPART'" sec:authorize="#httpServletRequest.getParameter('editmode') == '1'">Изменить ответственного</th>
+                            <th th:text="#{raid.showraid.removeosp}" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART')  and #httpServletRequest.getParameter('editmode') == '1'">Удалить</th>
+                            <th th:text="#{raid.showraid.editstats}" th:if="${roles.contains(#authentication.authorities[0].toString())} or ${#authentication.authorities[0].toString()} == 'ROLE_ADMIN'" sec:authorize="#httpServletRequest.getParameter('editmode') == '1'">Изменить статистику</th>
+                            <th th:text="#{raid.showraid.showstats}" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART')">Показать статистику</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class='clickable-row' data-href='#' th:each="participant : ${raid.participants}">
+                            <td th:text="${participant.participantDivision.caption}">Отдел ХХХХХ
+                            </td>
+                            <td th:text="${participant.responsiblePerson} != null ? ${participant.responsiblePerson.getFullName()} : 'Не указан'">
+                                Сидоров С.С.
+                            </td>
+                            <td th:text="${participant.responsiblePerson} != null ? ${participant.responsiblePerson.mobileNumber} + ' (' + ${participant.responsiblePerson.workingNumber} + ')' : 'Не указан'">
+                                8-800-555-35-35
+                            </td>
+                            <td th:if="${#authentication.authorities[0].toString()} == ${participant.participantDivision.authority} or ${#authentication.authorities[0].toString()} == 'ROLE_ADMIN' or ${#authentication.authorities[0].toString()} == 'ROLE_DEPART'" sec:authorize="#httpServletRequest.getParameter('editmode') == '1'">
+                                <a class="btn btn-success"
+                                   th:href="@{'/raid/' + ${raid.id}} + '/responsible/' + ${participant.participantDivision.id}"><i class="glyphicon glyphicon-pencil"></i></a>
+                            </td>
+                            <td sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'">
+                                <a class="btn btn-sm btn-danger"
+                                   th:href="@{'/raid/' + ${raid.id}} + '/removeparticipant/' + ${participant.participantDivision.id}"><i class="glyphicon glyphicon-remove"></i></a>
+                            </td>
+                            <td th:if="${#authentication.authorities[0].toString()} == ${participant.participantDivision.authority} or ${#authentication.authorities[0].toString()} == 'ROLE_ADMIN'" sec:authorize="#httpServletRequest.getParameter('editmode') == '1'">
+                                <a class="btn btn-warning"
+                                   ><i class="glyphicon glyphicon-list"></i></a>
+                            </td>
+                            <td sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART')">
+                                <a class="btn btn-sm btn-info"
+                                   ><i class="glyphicon glyphicon-search"></i></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a th:if="${raid.divisions.size()} lt ${allDivisions.size()}"  th:href="@{'/raid/' + ${raid.id}} + '/addparticipants'" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART') and #httpServletRequest.getParameter('editmode') == '1'" class="btn btn-success btn-bottom"><i class="glyphicon glyphicon-pencil"></i><span th:text="' ' + #{raid.showraid.addparticipants}" th:remove="tag"></span></a>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.container -->
+
+</body>
+</html>

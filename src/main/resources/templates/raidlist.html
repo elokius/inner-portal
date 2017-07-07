@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <title th:text="${#httpServletRequest.requestURI} == '/fssp60portal/pastraids' ? #{raid.raidlist.pasttitle} : #{raid.raidlist.futuretitle}">Прошедшие рейды</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#raids').DataTable({
+                "language": {
+                    "lengthMenu": "Отобразить _MENU_ записей на странице",
+                    "zeroRecords": "Ничего не найдено",
+                    "info": "Показана страница _PAGE_ из _PAGES_",
+                    "infoEmpty": "Нет доступных записей",
+                    "infoFiltered": "(Отфильтровано из _MAX_ записей)",
+                    "decimal": "",
+                    "emptyTable": "Нет доступных записей в таблице",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "loadingRecords": "Загрузка...",
+                    "processing": "Обработка...",
+                    "search": "Поиск:",
+                    "paginate": {
+                        "first": "Первая",
+                        "last": "Последняя",
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
+                    },
+                    "aria": {
+                        "sortAscending": ": нажмите для сортировки по возрастанию",
+                        "sortDescending": ": нажмите для сортировки по убыванию"
+                    }
+                },
+                columnDefs: [
+                    {type: 'date-eu', targets: 0}
+                ]
+            });
+        });
+
+        jQuery(document).ready(function ($) {
+            $(".clickable-row").click(function () {
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+
+    <h2 th:text="${#httpServletRequest.requestURI} == '/fssp60raid/pastraids' ? #{raid.raidlist.pastheader} : #{raid.raidlist.futureheader}">Прошедшие рейды</h2>
+    <div class="table-responsive">
+        <table id="raids" class="table">
+            <thead>
+            <tr>
+                <th th:text="#{raid.raidlist.datecolumn}">Дата</th>
+                <th th:text="#{raid.raidlist.starttimecolumn}">Начало</th>
+                <th th:text="#{raid.raidlist.endtimecolumn}">Окончание</th>
+                <th th:text="#{raid.raidlist.placecolumn}">Место проведения</th>
+                <th th:text="#{raid.raidlist.categorycolumn}">Категория ИП</th>
+                <th th:text="#{raid.raidlist.chiefcolumn}">Руководитель штаба</th>
+                <th th:text="#{raid.raidlist.subjectcolumn}">Предмет рейда</th>
+                <th th:text="#{raid.raidlist.quantitycolumn}">Количество участников</th>
+                <th th:text="#{raid.raidlist.editcolumn}" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART')">Редактировать</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class='clickable-row' data-href='#' th:each="raid : ${raids}" th:attr="data-href='raid/' + ${raid.id}">
+                <td th:text="${#dates.format(raid.startDate, 'dd.MM.yyyy')}">01.02.2017</td>
+                <td th:text="${#dates.format(raid.startDate, 'HH:mm')}">18:00</td>
+                <td th:text="${#dates.format(raid.endDate, 'HH:mm')}">22:00</td>
+                <td th:text="${raid.raidPlace.caption}">Штрафы ГИБДД</td>
+                <td th:text="${raid.raidCategory.caption}">Штрафы ГИБДД</td>
+                <td th:text="${raid.chief.getFullName()}">
+                    8-800-555-35-35
+                </td>
+                <td th:text="${raid.purpose}">Штрафы ГИБДД</td>
+                <td th:text="${raid.divisions.size()}">17</td>
+                <td sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_DEPART')"><a class="btn btn-success btn-sm" th:href="@{'/raid/' + ${raid.id} + '/editraid'}"><i class="glyphicon glyphicon-pencil"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- /.container -->
+
+
+</body>
+</html>

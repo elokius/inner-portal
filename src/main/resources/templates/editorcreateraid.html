@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${raid.id} == 0 ? #{raid.editorcreateraid.newtitle} : #{raid.editorcreateraid.edittitle}">Новый рейд</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#startDate').datetimepicker({
+                locale: 'ru',
+                sideBySide: true
+            });
+
+            $('#endDate').datetimepicker({
+                locale: 'ru',
+                sideBySide: true
+            });
+        });
+    </script>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+
+
+    <div class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="newRaid" id="newRaidForm"
+              th:action="@{/createnewraid}" th:object="${raid}" method="post">
+            <h2 th:text="${raid.id} == 0 ? #{raid.editorcreateraid.newheader} : #{raid.editorcreateraid.editheader}">Создание нового рейда</h2>
+
+            <input type="hidden" th:value="${raid.id}" name="id"/>
+            <div class="form-group">
+                <label for="startDate" th:text="#{raid.editorcreateraid.startdate}">Дата начала рейда:</label>
+                <div class="input-group date" id="startDate">
+                    <input th:value="${raid.startDate != null} ? ${#dates.format(raid.startDate, 'dd.MM.yyyy HH:mm')}" type="text" class="form-control" th:placeholder="#{raid.editorcreateraid.startdateplaceholder}" placeholder="25.01.2017 18:00" name="startDate"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="endDate" th:text="#{raid.editorcreateraid.enddate}">Дата окончания рейда:</label>
+                <div class="input-group date" id="endDate">
+                    <input type="text" th:value="${raid.endDate  != null} ? ${#dates.format(raid.endDate, 'dd.MM.yyyy HH:mm')}" class="form-control" th:placeholder="#{raid.editorcreateraid.enddateplaceholder}" placeholder="25.01.2017 22:00" name="endDate"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="raidPlace" th:text="#{raid.editorcreateraid.raidplace}">Место проведения:</label>
+                <select class="form-control" id="raidPlace" name="raidPlace" th:field="*{raidPlace}">
+                    <option th:each="raidPlace : ${raidPlaces}" th:value="${raidPlace.id}" th:text="${raidPlace.caption}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="raidCategory" th:text="#{raid.editorcreateraid.raidcategory}">Категория:</label>
+                <select class="form-control" id="raidCategory" name="raidCategory" th:field="*{raidCategory}">
+                    <option th:each="raidCategory : ${raidCategories}" th:value="${raidCategory.id}" th:text="${raidCategory.caption}">Все категории</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="purpose" th:text="#{raid.editorcreateraid.raidpurpose}">Цель проведения:</label>
+                <input th:value="${raid.purpose} != '' ? ${raid.purpose} : ''" type="text" class="form-control" id="purpose" th:placeholder="#{raid.editorcreateraid.raidpurposeplaceholder}" placeholder="Штрафы ГИБДД, алименты..." name="purpose"/>
+            </div>
+            <div class="form-group">
+                <label for="chief" th:text="#{raid.editorcreateraid.raidchief}">Руководитель штаба:</label>
+                <select class="form-control" id="chief" name="chief" th:field="*{chief}">
+                    <option th:each="chief : ${chiefs}" th:value="${chief.id}" th:text="${chief.getFullName()}">Иванов И.И.</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label th:text="#{raid.editorcreateraid.raidassistants}">Помощники руководителя штаба:</label>
+                <ul>
+                    <li class="list-group-item" th:each="assistant: ${chiefassistants}">
+                        <input type="checkbox" th:text="${assistant.getFullName()}" th:field="*{assistantPersons}" th:value="${assistant.id}" />
+                    </li>
+                </ul>
+            </div>
+
+            <div class="form-group">
+                <label for="raidStatus" th:text="#{raid.editorcreateraid.raidstatus}">Статус рейда:</label>
+                <select class="form-control" id="raidStatus" name="raidStatus" th:field="*{raidStatus}">
+                    <option th:each="caption : ${raidStatuses}" th:value="${caption.id}" th:text="${caption.caption}">Новый</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label th:text="#{raid.editorcreateraid.raidparticipants}">Отделы-участники:</label>
+                <ul>
+                    <li class="list-group-item" th:each="division: ${divisions}">
+                        <input type="checkbox" th:text="' ' + ${division.caption}" th:field="*{divisions}" th:value="${division.number}" />
+                    </li>
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-success" id="raidSubmit"><i class="glyphicon glyphicon-check"></i><span th:text="' ' + #{raid.editorcreateraid.submit}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+</div>
+<!-- /.container -->
+
+</body>
+</html>

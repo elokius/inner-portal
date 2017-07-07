@@ -1,0 +1,60 @@
+@font-face {
+    font-family: "RalewayExtraBold";
+    src: url(../fonts/Raleway/Raleway-ExtraBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RalewaySemiBold";
+    src: url(../fonts/Raleway/Raleway-SemiBold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RalewayLight";
+    src: url(../fonts/Raleway/Raleway-Light.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RalewayThin";
+    src: url(../fonts/Raleway/Raleway-Thin.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RalewayMedium";
+    src: url(../fonts/Raleway/Raleway-Medium.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "LoraBold";
+    src: url(../fonts/Lora/Lora-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "LoraBoldItalic";
+    src: url(../fonts/Lora/Lora-BoldItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "LoraMedium";
+    src: url(../fonts/Lora/Lora-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "LoraItalic";
+    src: url(../fonts/Lora/Lora-Italic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoMedium";
+    src: url(../fonts/Roboto/Roboto-Medium.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoRegular";
+    src: url(../fonts/Roboto/Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoItalic";
+    src: url(../fonts/Roboto/Roboto-Italic.ttf) format("truetype");
+}
+

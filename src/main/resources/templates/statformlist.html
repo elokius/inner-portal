@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Статистические формы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+
+    <h1>Статистические формы</h1>
+
+    <div class="row">
+        <div class="col-md-6" th:each="selectPart : ${selectParts}">
+            <h2><i class="fa fa-bar-chart"></i> <span th:text="${selectPart.description}"></span></h2>
+            <div class="panel panel-success" th:each="sfg : ${selectPart.statFormGroups}">
+                <div class="panel-heading" th:text="${sfg.caption} + ':'"></div>
+                <div class="panel-body list-group">
+                    <a class="list-group-item statlist" th:each="sf : ${statforms}"
+                       th:if="${sf.statFormGroup.id} == ${sfg.id}" th:href="@{'/statforms/' + ${sf.id}}"
+                       th:text="' ' + ${sf.code} + ' - ' +  ${sf.name}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- /.container -->
+
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="#{raid.filling.title}">Наполняемость</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#results').DataTable({
+                "language": {
+                    "lengthMenu": "Отобразить _MENU_ записей на странице",
+                    "zeroRecords": "Ничего не найдено",
+                    "info": "Показана страница _PAGE_ из _PAGES_",
+                    "infoEmpty": "Нет доступных записей",
+                    "infoFiltered": "(Отфильтровано из _MAX_ записей)",
+                    "decimal": "",
+                    "emptyTable": "Нет доступных записей в таблице",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "loadingRecords": "Загрузка...",
+                    "processing": "Обработка...",
+                    "search": "Поиск:",
+                    "paginate": {
+                        "first": "Первая",
+                        "last": "Последняя",
+                        "next": "Следующая",
+                        "previous": "Предыдущая"
+                    },
+                    "aria": {
+                        "sortAscending": ": нажмите для сортировки по возрастанию",
+                        "sortDescending": ": нажмите для сортировки по убыванию"
+                    }
+                },
+                scrollY: false,
+                scrollCollapse: true,
+                scrollX: true,
+                paging: false,
+                searching: false,
+                info: false,
+                order: [[0, "asc"]],
+                columnDefs: [
+                    {
+                        type: 'int-case',
+                        targets: 'custom-sorting'
+                    }
+                ]
+            });
+
+        });
+
+
+        $.fn.dataTable.ext.type.order['int-case-pre'] = function (d) {
+            return parseInt(d.substr(0, d.indexOf('/')));
+        };
+    </script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+    <h1 th:text="${statform.name}">Статистика наполняемости </h1>
+
+    <div class="row container">
+
+        <div id="statWarning" class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>Внимание!</strong> Произошла ошибка.
+        </div>
+        <div id="statSuccess" class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>Успех!</strong> Данные будут обновлены в течение нескольких минут.
+        </div>
+
+        <div class="col-md-6 col-xs-12 panel panel-success" id="statformparams">
+
+            <div class="panel-heading">
+                <h3 class="panel-title">Параметры отчёта:</h3>
+            </div>
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    <div th:if="${statform.statFormGroup.selectPart.parameterName} == 'IP'">
+                        <li class="list-group-item">Статусы ИП: <span class="badge"
+                                                                      th:if="${statform.docstatuses} != null"
+                                                                      th:each="docstatus : ${statform.docstatuses}"
+                                                                      th:text="${docstatus.caption}">Приостановлен, В исполнении</span>
+                        </li>
+                        <li class="list-group-item">Тип должника: <span class="badge"
+                                                                        th:text="${statform.debtorType} == null ? 'Не указан' : ${statform.debtorType.caption}">Физическое лицо</span>
+                        </li>
+                        <li class="list-group-item">Дата возбуждения с: <span class="badge"
+                                                                              th:text="${statform.minRisedate} == null ? 'Не указана' : 'c ' + ${#dates.format(statform.minRisedate, 'dd.MM.yyyy')}">Не указана</span>
+                        </li>
+                        <li class="list-group-item">Дата возбуждения по: <span class="badge"
+                                                                               th:text="${statform.maxRisedate} == null ? 'Не указана' : 'по ' + ${#dates.format(statform.maxRisedate, 'dd.MM.yyyy')}">Не указано</span>
+                        </li>
+                        <li class="list-group-item">Сущность исполнения: <span class="badge"
+                                                                               th:text="${statform.debtClass} == null ? 'Не указана' : ${statform.debtClass.caption}">Не указана</span>
+                        </li>
+                    </div>
+                    <li class="list-group-item" th:if="${statform.additionalInfo} != null">Дополнительная
+                        информация:
+                        <span
+                                class="badge"
+                                th:text="${statform.additionalInfo}">Не указана</span></li>
+                    <li class="list-group-item">Дата актуальности данных: <span class="badge"
+                                                                                th:text="${#dates.format(statform.actualDate, 'dd.MM.yyyy hh:mm')}"></span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="col-md-6 col-xs-12 panel panel-success" id="statformoptions">
+            <div class="panel-heading">
+                <h3 class="panel-title">Опции:</h3>
+            </div>
+
+            <div class="panel panel-body">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span>Отображение разницы цветом</span>
+                        <span class="pull-right"><input type="checkbox" id="colortoggle" data-toggle="toggle"
+                                                        data-onstyle="success" data-on="Вкл"
+                                                        data-off="Выкл"/>
+                            </span>
+                    </li>
+                    <li class="list-group-item">
+                        <span>Распечатать отчёт</span>
+                        <a th:href="@{${statform.id} + '/print'}" id="printbutton" class="btn btn-success pull-right"><i
+                                class="glyphicon glyphicon-print"></i>
+                        </a>
+
+                    </li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="list-group-item">
+                        <span>Запустить пересчет статистики</span>
+                        <button id="recalculatebutton" class="btn btn-success pull-right"><i
+                                class="glyphicon glyphicon-refresh"></i>
+                        </button>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div>
+        <table id="results" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Код отдела</th>
+                <th>Отдел судебных приставов</th>
+                <th class="custom-sorting" th:each="filtertype : ${filtertypes}"
+                    th:text="${filtertype.caption}" th:title="${filtertype.description}">Пустые ИНН
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry : ${values}">
+                <td th:text="${entry.key.number}">ХХХХ</td>
+                <td th:text="${entry.key.caption}">ОСП г.ХХХХХ №1</td>
+                <td th:each="value: ${entry.value}" th:text="${value}">1686</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr th:if="${summary}!=null" th:each="sum : ${summary}">
+
+                <th colspan="2" th:text="${sum.key}">Итого</th>
+                <th th:if="${sum.value} != null" th:each="value: ${sum.value}" th:text="${value}">100500</th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    /*<![CDATA[*/
+    $(function () {
+        $('#colortoggle').change(function () {
+            var cells = $('tbody>tr').find('td:gt(2)');
+            cells.each(function () {
+                var cellValue = $(this).text();
+                var number = cellValue.substr(cellValue.indexOf('/') + 1, cellValue.length);
+                if (number < 0) {
+                    $(this).toggleClass('good-numbers');
+                } else if (number > 0) {
+                    $(this).toggleClass('bad-numbers');
+                }
+            });
+        });
+
+        $('#recalculatebutton').click(function () {
+            $.ajax(window.location.pathname + "/recalculate")
+                .done(function () {
+                    $('#statSuccess').fadeIn();
+                })
+                .fail(function () {
+                    $('#statWarning').fadeIn();
+                })
+        });
+
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

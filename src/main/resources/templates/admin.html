@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Admin</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+</div>
+
+<div class="container">
+    <h1>Панель администратора</h1>
+
+    <div class="container">
+        <div class="col-md-8"><h3>Управление сущностями</h3>
+        <div class="list-group">
+            <a class="list-group-item statlist" th:href="@{admin/debtclasses}">Сущность исполнения</a>
+            <a class="list-group-item statlist" th:href="@{admin/debtortypes}">Тип должника</a>
+            <a class="list-group-item statlist" th:href="@{admin/divisions}">ОСП</a>
+            <a class="list-group-item statlist" th:href="@{admin/docstatuses}">Статус исполнительного производства</a>
+            <a class="list-group-item statlist" th:href="@{admin/filtertypes}">Специальные фильтры для статистической отчетности</a>
+            <a class="list-group-item statlist" th:href="@{admin/statformgroups}">Типы статистических форм</a>
+            <a class="list-group-item statlist" th:href="@{admin/statforms}">Статистические формы</a>
+        </div></div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

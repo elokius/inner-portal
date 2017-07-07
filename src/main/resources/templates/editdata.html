@@ -1,0 +1,194 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{raid.editdata.title}">Редактирование</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#startDate').datetimepicker({
+                locale: 'ru',
+                sideBySide: true
+            });
+
+            $('#endDate').datetimepicker({
+                locale: 'ru',
+                sideBySide: true
+            });
+        });
+    </script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+
+
+    <div th:if="${#httpServletRequest.requestURI.contains('editstatus')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="raid" id="newRaidForm"
+              th:action="@{editstatus}" th:object="${raid}" method="post">
+            <h2 th:text="#{raid.editdata.statusheader}">Редактирование статуса рейда</h2>
+
+            <h3 th:text="#{raid.editdata.currentstatus}">Текущий статус рейда: </h3>
+            <h4 th:text="${raid.raidStatus.caption}">Новый</h4>
+
+            <div class="form-group">
+                <label for="raidStatus" th:text="#{raid.editdata.choosestatus}">Выбрать статус рейда:</label>
+                <select class="form-control" id="raidStatus" name="raidStatus" th:field="*{raidStatus}">
+                    <option th:each="caption : ${statuses}" th:value="${caption.id}" th:text="${caption.caption}">Актуальный</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success" id="responsibleSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.savestatus}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${#httpServletRequest.requestURI.contains('responsible')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="participant" id="newRaidForm"
+              th:action="@{${gottenparticipant.participantDivision.id}}" th:object="${gottenparticipant}" method="post">
+            <h2 th:text="#{raid.editdata.responsibleheader}">Редактирование ответственного лица</h2>
+
+            <h3 th:text="#{raid.editdata.currentresponsible}">Текущее ответственное лицо: </h3>
+            <h4 th:text="${gottenparticipant.responsiblePerson} != null ? ${gottenparticipant.responsiblePerson.getFullName()} : 'Не указано'">Не указано</h4>
+
+            <div class="form-group">
+                <label for="responsible" th:text="#{raid.editdata.chooseresponsible}">Выбрать ответственного:</label>
+                <select class="form-control" id="responsible" name="responsible" th:field="*{responsiblePerson}">
+                    <option th:each="person : ${divisionWorkers}" th:value="${person.id}" th:text="${person.getFullName()}">Иванов Иван Иванович</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success" id="responsibleSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.saveresponsible}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${#httpServletRequest.requestURI.contains('chooseassistant')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="participant" id="newRaidForm"
+              th:action="@{${gottenparticipant.participantDivision.number}}" th:object="${gottenparticipant}" method="post">
+            <h2 th:text="#{raid.editdata.curatorheader}">Редактирование куратора</h2>
+
+            <h3 th:text="#{raid.editdata.currentcurator}">Текущий куратор: </h3>
+            <h4 th:text="${gottenparticipant.assistantPerson} != null ? ${gottenparticipant.assistantPerson.getFullName()} : 'Не указано'">Не указано</h4>
+
+            <div class="form-group">
+                <label for="responsible" th:text="#{raid.editdata.choosecurator}">Выбрать куратора:</label>
+                <select class="form-control" id="curator" name="curator" th:field="*{assistantPerson}">
+                    <option th:each="person : ${assistants}" th:value="${person.id}" th:text="${person.getFullName()}">Иванов Иван Иванович</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success" id="curatorSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.savecurator}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${#httpServletRequest.requestURI.contains('editdate')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="raid" id="newRaidForm"
+              th:action="@{editdate}" th:object="${raid}" method="post">
+            <h2 th:text="#{raid.editdata.dateheader}">Редактирование даты проведения рейда</h2>
+
+            <h3 th:text="#{raid.editdata.currentdate}">Текущая дата рейда: </h3>
+            <h4 th:text="${#dates.format(raid.startDate, 'dd.MM.yyyy')} + ' ' + ${#dates.format(raid.startDate, 'HH:mm')} + '-' + ${#dates.format(raid.endDate, 'HH:mm')}">21.02.2017 18:00-22:00</h4>
+
+            <div class="form-group">
+                <label for="startDate" th:text="#{raid.editdata.editstartdate}">Дата начала рейда:</label>
+                <div class="input-group date" id="startDate">
+                    <input th:value="${raid.startDate != null} ? ${#dates.format(raid.startDate, 'dd.MM.yyyy HH:mm')}" type="text" class="form-control" placeholder="25.01.2017 18:00" name="startDate"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="endDate" th:text="#{raid.editdata.editenddate}">Дата окончания рейда:</label>
+                <div class="input-group date" id="endDate">
+                    <input th:value="${raid.endDate != null} ? ${#dates.format(raid.endDate, 'dd.MM.yyyy HH:mm')}" type="text" class="form-control" placeholder="25.01.2017 22:00" name="endDate"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success" id="responsibleSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.savedate}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${#httpServletRequest.requestURI.contains('editchief')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="raid" id="newRaidForm"
+              th:action="@{editchief}" th:object="${raid}" method="post">
+            <h2 th:text="#{raid.editdata.chiefheader}">Редактирование руководителя штаба</h2>
+
+            <h3 th:text="#{raid.editdata.currentchief}">Текущий руководитель штаба: </h3>
+            <h4 th:text="${raid.chief.getFullName()}">Иванов Иван Иванович</h4>
+
+            <div class="form-group">
+                <label for="newChief" th:text="#{raid.editdata.choosechief}">Выбрать руководителя штаба:</label>
+                <select class="form-control" id="newChief" name="newChief" th:field="*{chief}">
+                    <option th:each="chief : ${chiefs}" th:value="${chief.id}" th:text="${chief.getFullName()}">Петров Пётр Петрович</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success" id="chiefSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.savechief}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${#httpServletRequest.requestURI.contains('editassistant')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="participant" id="newRaidForm"
+              th:action="@{${chiefAssistant.assistedPerson.id}}" th:object="${raid}" method="post">
+            <h2 th:text="#{raid.editdata.assistantheader}">Редактирование помощника руководителя штаба</h2>
+
+            <h3 th:text="#{raid.editdata.currentassistant}">Текущий помощник руководителя штаба: </h3>
+            <h4 th:text="${chiefAssistant.assistedPerson.getFullName()}">Иванов Иван Иванович</h4>
+
+            <div class="form-group">
+                <label for="assistantPerson" th:text="#{raid.editdata.chooseassistant}">Выбрать ответственного:</label>
+                <select class="form-control" id="assistantPerson" name="assistantPerson" th:field="*{assistantPersons}">
+                    <option th:each="assistantperson : ${assistantPersons}" th:value="${assistantperson.id}" th:text="${assistantperson.getFullName()}">Петров Пётр Петрович</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success" id="assistantsSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.saveassistant}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+    <div th:if="${#httpServletRequest.requestURI.contains('addparticipants')}" class="row">
+
+        <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" modelAttribute="raid" id="newRaidForm"
+              th:action="@{addparticipants}" th:object="${raid}" method="post">
+            <h2 th:text="#{raid.editdata.addparticipantheader}">Добавление участников рейда</h2>
+
+            <div class="form-group">
+                <label th:text="#{raid.editdata.chooseparticipant}">Отделы-участники, не участвующие в рейде:</label>
+                <ul>
+                    <li class="list-group-item" th:each="division: ${divisions}">
+                        <input type="checkbox" th:text="' ' + ${division.caption}" th:field="*{divisions}" th:value="${division.id}" />
+                    </li>
+                </ul>
+            </div>
+            <button type="submit" class="btn btn-success" id="participantsSubmit"><i class="glyphicon glyphicon-check"></i>
+                <span th:text="' ' + #{raid.editdata.saveparticipant}" th:remove="tag"></span>
+            </button>
+        </form>
+    </div>
+
+</div>
+<!-- /.container -->
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование статистической формы</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+    <h1>Редактирование статистической формы</h1>
+    <div class="table-responsive">
+        <form th:action="@{'save'}" method="post" class="edit-data" th:object="${statform}">
+            <div class="form-group">
+                <label for="statFormCode">Код:</label>
+                <input class="form-control" type="text" name="code" id="statFormCode" th:value="${statform.code}"/>
+            </div>
+            <div class="form-group">
+                <label for="statFormName">Название:</label>
+                <input class="form-control" type="text" name="name" id="statFormName" th:value="${statform.name}"/>
+            </div>
+            <div class="form-group">
+                <label for="statFormDebtorType">Тип должника:</label>
+                <select class="form-control" id="statFormDebtorType" name="debtorType" th:field="*{debtorType}">
+                    <option value=""></option>
+                    <option name="debtorType" th:each="dt : ${debtorTypes}" th:value="${dt.id}" th:text="${dt.caption}">Физическое лицо</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="statFormDebtClass">Сущность исполнения:</label>
+                <select class="form-control" id="statFormDebtClass" name="debtClass" th:field="*{debtClass}">
+                    <option value=""></option>
+                    <option name="debtClass" th:each="dc : ${debtClasses}" th:value="${dc.id}" th:text="${dc.caption}">Имущественного характера</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="statFormStatFormGroup">Тип формы:</label>
+                <select class="form-control" id="statFormStatFormGroup" name="statFormGroup" th:field="*{statFormGroup}">
+                    <option name="statFormGroup" th:each="sfg : ${statFormGroups}" th:value="${sfg.id}" th:text="${sfg.caption}">Наполняемость</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="statFormMinRisedate">Мин. дата возбуждения:</label>
+                <div class="input-group date" id="statFormMinRisedate">
+                    <input type="text" class="form-control" placeholder="01.01.2015" name="minRisedate" th:value="${statform.minRisedate} != null ? ${#dates.format(statform.minRisedate, 'dd.MM.yyyy')} : ''"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="statFormMaxRisedate">Макс. дата возбуждения:</label>
+                <div class="input-group date" id="statFormMaxRisedate">
+                    <input type="text" class="form-control" placeholder="01.01.2018" name="maxRisedate" th:value="${statform.maxRisedate} != null ? ${#dates.format(statform.maxRisedate, 'dd.MM.yyyy')} : ''"/>
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="statFormMinDebtsum">Мин. сумма долга:</label>
+                <input class="form-control" type="number" name="minDebtsum" id="statFormMinDebtsum" th:field="*{minDebtsum}"/>
+            </div>
+            <div class="form-group">
+                <label for="statFormMaxDebtsum">Макс. сумма долга:</label>
+                <input class="form-control" type="number" name="maxDebtsum" id="statFormMaxDebtsum" th:field="*{maxDebtsum}"/>
+            </div>
+            <div class="form-group">
+                <label for="statFormAdditionalInfo">Дополнительная информация:</label>
+                <textarea class="form-control" name="additionalInfo" id="statFormAdditionalInfo" th:value="${statform.additionalInfo}"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="statFormFilterTypes">Спец. фильтры:</label>
+                <ul class="list-group" id="statFormFilterTypes" >
+                    <li class="list-group-item" th:each="filtertype : ${filterTypes}">
+                        <input type="checkbox" th:field="*{filterTypes}" th:text="' ' + ${filtertype.caption}" th:value="${filtertype.id}" name="filtertype"/>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label for="statFormDocstatuses">Статусы ИП:</label>
+                <ul class="list-group" id="statFormDocstatuses">
+                    <li class="list-group-item" th:each="docstatus : ${docstatuses}" >
+                        <input type="checkbox"  th:field="*{docstatuses}" th:text="' ' + ${docstatus.caption}" name="docstatus" th:value="${docstatus.id}" />
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-primary btn-block" id="submit"><i class="glyphicon glyphicon-check"></i>
+                    <span>Сохранить</span>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{raid.error.title}">Произошла ошибка!</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Spring Boot</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Ошибка 404! Страница не найдена!</h1>
+        <a th:href="@{/}" class="btn btn-success">Вернуться на главную</a>
+    </div>
+
+
+
+</div>
+<!-- /.container -->
+
+
+</body>
+</html>

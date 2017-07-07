@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <title tiles:fragment="title" th:text="#{raid.login.title}">ФССП Рейд - Авторизация</title>
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body id="login-body">
+<div>
+    <div class="container">
+
+        <div th:replace="fragments/header :: header">
+        </div>
+
+        <div class="row">
+            <form class="col-md-offset-2 col-md-8 col-xs-offset-1 col-xs-10" id="login-form" th:action="@{/login}"
+                  method="post">
+                <h1 id="h1-login" th:text="#{raid.login.mainheader}">Портал</h1>
+                <h3 id="h3-login" th:text="#{raid.login.extraheader}">Пожалуйста, авторизуйтесь</h3>
+                <div class="form-group">
+                    <label for="userName" th:text="#{raid.login.username} + ':'">Имя пользователя:</label>
+                    <input type="text" class="form-control" id="userName" th:placeholder="#{raid.login.usernameplaceholder}" placeholder="Username" name="username"/>
+                </div>
+                <div class="form-group">
+                    <label for="passwd" th:text="#{raid.login.password} + ':'">Пароль:</label>
+                    <input type="password" class="form-control" id="passwd" th:placeholder="#{raid.login.passwordplaceholder}" placeholder="Password" name="password"/>
+                </div>
+                <div th:if="${(param.error != null) and (param.error[0] == 'true')}" class="alert alert-danger alert-dismissible fade in login-error" role="alert" >
+                    <span  th:text="#{raid.login.error}" th:remove="tag"></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <button type="submit" class="btn btn-success" id="login-submit"><i class="glyphicon glyphicon-log-in"></i><span th:text="' ' + #{raid.login.login}" th:remove="tag"></span>
+
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script type="application/javascript">
+    $(function () {
+        $('.navbar').css('background-color','rgba(10, 150, 48, 0.5)');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование отдела судебных приставов / отдела Аппарата Управления</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+    <h1>Редактирование отдела судебных приставов / отдела Аппарата Управления</h1>
+    <div class="table-responsive">
+
+        <form th:action="@{'save'}" method="post" class="edit-data">
+            <div class="form-group">
+                <label for="divisionNumber">Номер ОСП:</label>
+                <input class="form-control" type="number" name="number" id="divisionNumber" placeholder="60018" th:value="${division.number}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionCaption">Название:</label>
+                <input class="form-control" type="text" name="caption" id="divisionCaption" placeholder="ОСП г. ХХХХХ №1" th:value="${division.caption}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionAuthority">Права доступа:</label>
+                <input class="form-control" type="text" name="authority" id="divisionAuthority" placeholder="ROLE_DEPxx" th:value="${division.authority}"/>
+            </div>
+            <div class="form-group checkbox">
+                <label for="divisionIsActualOsp"><input type="checkbox" name="isActualOsp" id="divisionIsActualOsp" th:field="*{division.actualOsp}"/> Действующий ОСП</label>
+
+            </div>
+            <div class="form-group">
+                <label for="divisionAddress">Адрес:</label>
+                <input class="form-control" type="text" name="address" id="divisionAddress" placeholder="г. ХХХХХ, ул. Ленина, д. 1" th:value="${division.address}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionEmail">Электронная почта:</label>
+                <input class="form-control" type="text" name="email" id="divisionEmail" placeholder="ospХХ@rХХ.fssprus.ru" th:value="${division.email}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionTelephoneCode">Телефонный код:</label>
+                <input class="form-control" type="text" name="telephoneCode" id="divisionTelephoneCode" placeholder="Х-ХХХХ" th:value="${division.telephoneCode}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionFax">Факс:</label>
+                <input class="form-control" type="text" name="fax" id="divisionFax" placeholder="ХХХ-ХХХ" th:value="${division.fax}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionIpAddress">IP-адрес:</label>
+                <input class="form-control" type="text" name="ipAddress" id="divisionIpAddress" placeholder="0.0.0.0" th:value="${division.ipAddress}"/>
+            </div>
+            <div class="form-group">
+                <label for="divisionDutyPhone">Телефон дежурного:</label>
+                <input class="form-control" type="text" name="dutyPhone" id="divisionDutyPhone" placeholder="+7-800-555-35-35" th:value="${division.dutyPhone}"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-primary btn-block" id="submit"><i class="glyphicon glyphicon-check"></i>
+                    <span>Сохранить</span>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+</html>

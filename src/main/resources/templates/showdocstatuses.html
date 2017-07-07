@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Статусы исполнительного производства</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <th:block th:replace="fragments/header :: links">
+    </th:block>
+</head>
+<body>
+<div th:replace="fragments/header :: header">
+
+</div>
+
+<div class="container">
+    <h1>Статусы исполнительного производства</h1>
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed">
+            <thead>
+            <th>Идентификатор</th>
+            <th>Идентификатор в АИС</th>
+            <th>Статус ИП</th>
+            <th>Редактировать</th>
+            <th>Удалить</th>
+            </thead>
+            <tbody>
+            <tr th:each="docstatus : ${docstatuses}">
+                <td th:text="${docstatus.id}">1</td>
+                <td th:text="${docstatus.number}">1</td>
+                <td th:text="${docstatus.caption}">Новый</td>
+                <td><a class="btn btn-warning btn-sm" th:href="@{'docstatus/' + ${docstatus.id} + '/edit'}"><i
+                        class="glyphicon glyphicon-pencil"></i></a></td>
+                <td><a class="btn btn-danger btn-sm" th:href="@{'docstatus/' + ${docstatus.id} + '/remove'}"><i
+                        class="glyphicon glyphicon-trash"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <form th:action="@{'docstatuses/add'}" method="post" class="edit-data">
+            <div class="form-group">
+                <h3>Добавить статус ИП:</h3>
+            </div>
+            <div class="form-group">
+                <label for="docstatusNumber">Идентификатор в АИС:</label>
+                <input class="form-control" type="number" name="number" id="docstatusNumber"/>
+            </div>
+            <div class="form-group">
+                <label for="docstatusCaption">Статус ИП:</label>
+                <input class="form-control" type="text" name="caption" id="docstatusCaption"/>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-primary btn-block" id="submit"><i class="glyphicon glyphicon-check"></i>
+                    <span>Сохранить</span>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+</body>
+</html>
