@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.vergl</groupId>
-	<artifactId>fssp60portal</artifactId>
+	<artifactId>portal</artifactId>
 	<version>0.5.0</version>
 	<packaging>war</packaging>
 
 	<name>Fssp60Portal</name>
-	<description>Web application for FSSP of Pskov District</description>
+	<description>Web application for Federal Bailiff Service</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
